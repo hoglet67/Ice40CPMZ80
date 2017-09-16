@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PROG=beeb
+PROG=cpmz80
 
 # Remove BlackIce files
 rm -f $PROG.blif $PROG.txt $PROG.bin $PROG.log

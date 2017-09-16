@@ -48,7 +48,7 @@ Microcomputer
       #1000
       reset_b  = 1'b1;
               
-      #10000000 ; // 1ms
+      #20000000 ; // 20ms
 
       $finish;
 

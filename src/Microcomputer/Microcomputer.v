@@ -82,12 +82,22 @@ module Microcomputer
 
    reg [15:0]    serialClkCount = 0;
    reg [5:0]     cpuClkCount = 0;
-   reg [5:0]     sdClkCount = 0;
    reg           cpuClock;
    wire          serialClock;
    reg           sdClock;
    reg           clk = 0;
    wire          driveLED;
+
+   // CPM
+   reg n_RomActive = 0;
+   
+   // Disable ROM if out 38. Re-enable when (asynchronous) reset pressed
+   always @(posedge n_ioWR or negedge n_reset) begin
+      if (n_reset == 1'b0)
+        n_RomActive <= 1'b0;
+      else if (cpuAddress[7:0] == 8'b00111000) // $38
+        n_RomActive <= 1'b1;
+   end
 
    // ____________________________________________________________________________________
    // CPU CHOICE GOES HERE
@@ -205,7 +215,7 @@ module Microcomputer
       .ps2Data(ps2Data)
       );
 `else
-   assign interface2DataOut = 8'h00;
+   assign interface2DataOut = 8'hff;
 `endif
 
    sd_controller sd1
@@ -221,7 +231,9 @@ module Microcomputer
       .dataOut(sdCardDataOut),
       .regAddr(cpuAddress[2:0]),
       .driveLED(driveLED),
-      .clk(sdClock));
+      .clk(clk)
+      );
+   
 
    // ____________________________________________________________________________________
    // MEMORY READ/WRITE LOGIC GOES HERE
@@ -235,7 +247,7 @@ module Microcomputer
    // CHIP SELECTS GO HERE
 
    //8K at bottom of memory
-   assign n_basRomCS = cpuAddress[15:13] == 3'b 000 ? 1'b 0 : 1'b 1;
+   assign n_basRomCS = cpuAddress[15:13] == 3'b 000 && n_RomActive == 1'b0  ? 1'b 0 : 1'b 1;
 
    // 2 Bytes $80-$81
    assign n_interface1CS = cpuAddress[7:1] == 7'b 1000000 && (n_ioWR == 1'b 0 || n_ioRD == 1'b 0) ? 1'b 0 : 1'b 1;
@@ -281,19 +293,6 @@ module Microcomputer
       else begin
          cpuClock <= 1'b 1;
       end
-      if(sdClkCount < 49) begin
-         // 1MHz
-         sdClkCount <= sdClkCount + 1;
-      end
-      else begin
-         sdClkCount <= {6{1'b0}};
-      end
-      if(sdClkCount < 25) begin
-         sdClock <= 1'b 0;
-      end
-      else begin
-         sdClock <= 1'b 1;
-      end
       // Serial clock DDS
       // 50MHz master input clock:
       // Baud Increment
@@ -303,13 +302,13 @@ module Microcomputer
       // 9600 201
       // 4800 101
       // 2400 50
-      serialClkCount <= serialClkCount + 2416;
+      serialClkCount <= serialClkCount + 201;
    end
 
    assign led1 = 0;
-   assign led2 = !n_reset;
+   assign led2 = !driveLED;
    assign led3 = n_WR;
-   assign led4 = driveLED;
+   assign led4 = !n_reset;
 
 
 endmodule

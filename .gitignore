@@ -1,0 +1,14 @@
+*~
+#*
+not_in_git/
+# IceStorm files
+cpmz80.bin
+cpmz80.blif
+cpmz80.log
+cpmz80.txt
+# Simulation files
+dump.vcd
+a.out
+target/blackice/iceboot/output/
+target/blackice/iceboot/icebootcpmz80.raw
+xilinx/

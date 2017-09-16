@@ -1,0 +1,55 @@
+set_io clk100          129
+set_io n_reset          64 # sw4
+set_io sramData[0]     135
+set_io sramData[1]     134
+set_io sramData[2]     130
+set_io sramData[3]     128
+set_io sramData[4]     125
+set_io sramData[5]     124
+set_io sramData[6]     122
+set_io sramData[7]     121
+set_io sramAddress[0]  137
+set_io sramAddress[1]  138
+set_io sramAddress[2]  139
+set_io sramAddress[3]  141
+set_io sramAddress[4]  142
+set_io sramAddress[5]  42
+set_io sramAddress[6]  43
+set_io sramAddress[7]  44
+set_io sramAddress[8]  73
+set_io sramAddress[9]  74
+set_io sramAddress[10] 75
+set_io sramAddress[11] 76
+set_io sramAddress[12] 115
+set_io sramAddress[13] 116
+set_io sramAddress[14] 117
+set_io sramAddress[15] 118
+set_io sramAddress[16] 119
+set_io sramAddress[17] 78
+set_io n_sRamWE        120
+set_io n_sRamCS        136
+set_io n_sRamOE        45
+set_io rxd1            88
+set_io txd1            85
+set_io sdCS            38 # DIG18
+set_io sdMOSI          41 # DIG16
+set_io sdMISO          63 # B1
+set_io sdSCLK          37 # DIG19
+
+set_io led1  71
+set_io led2  67
+set_io led3  68
+set_io led4  70
+
+#videoSync
+#video
+#videoR0
+#videoG0
+#videoB0
+#videoR1
+#videoG1
+#videoB1
+#hSync
+#vSync
+#ps2Clk
+#ps2Data

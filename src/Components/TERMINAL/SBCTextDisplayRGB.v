@@ -110,9 +110,9 @@ module SBCTextDisplayRGB
    reg [6:0]        savedCursorHoriz =0;
 
    reg [10:0]       startAddr = 0;
-   wire [10:0]      cursAddr;
+   reg [10:0]       cursAddr;
 
-   wire [10:0]      dispAddr;
+   reg [10:0]       dispAddr;
    wire [10:0]      charAddr;
 
    wire [7:0]       dispCharData;
@@ -640,8 +640,19 @@ module SBCTextDisplayRGB
    assign FNkeys = FNkeysSig;
    assign FNtoggledKeys = FNtoggledKeysSig;
    assign charAddr = {dispCharData,charScanLine[VERT_PIXEL_SCANLINES + 1:VERT_PIXEL_SCANLINES - 1]};
-   assign dispAddr = ((startAddr + charHoriz + ((charVert * HORIZ_CHARS)))) % CHARS_PER_SCREEN;
-   assign cursAddr = ((startAddr + cursorHoriz + ((cursorVert * HORIZ_CHARS)))) % CHARS_PER_SCREEN;
+
+
+   //assign dispAddr = ((startAddr + charHoriz + ((charVert * HORIZ_CHARS)))) % CHARS_PER_SCREEN;
+   //assign cursAddr = ((startAddr + cursorHoriz + ((cursorVert * HORIZ_CHARS)))) % CHARS_PER_SCREEN;
+   reg [11:0] tmpDispAddr;
+   reg [11:0] tmpCursAddr;
+   always @(*) begin
+      tmpDispAddr = startAddr + charHoriz + (charVert * HORIZ_CHARS);
+      dispAddr = (tmpDispAddr >= CHARS_PER_SCREEN) ? tmpDispAddr - CHARS_PER_SCREEN : tmpDispAddr;
+      tmpCursAddr = startAddr + cursorHoriz + (cursorVert * HORIZ_CHARS);
+      cursAddr = (tmpCursAddr >= CHARS_PER_SCREEN) ? tmpCursAddr - CHARS_PER_SCREEN : tmpCursAddr;
+   end
+   
    assign sync = vSync & hSync;
    // composite sync for mono video out
    // SCREEN RENDERING

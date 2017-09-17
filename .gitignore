@@ -10,5 +10,9 @@ cpmz80.txt
 dump.vcd
 a.out
 target/blackice/iceboot/output/
-target/blackice/iceboot/icebootcpmz80.raw
+iceboot.raw
+iceboot.zip
+icebootcpmz80.raw
+icebootcpmz80.zip
+log
 xilinx/

@@ -302,7 +302,7 @@ module Microcomputer
       // 9600 201
       // 4800 101
       // 2400 50
-      serialClkCount <= serialClkCount + 201;
+      serialClkCount <= serialClkCount + 2416;
    end
 
    assign led1 = 0;

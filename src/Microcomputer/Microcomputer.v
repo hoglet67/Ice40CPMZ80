@@ -16,7 +16,7 @@
 // eMail address available on my main web page link above.
 // no timescale needed
 
-//`define include_video
+`define include_video
 
 // The IceStorm sythesis scripts defines use_sb_io to force
 // the instantaion of SB_IO (as inferrence broken)
@@ -127,8 +127,8 @@ module Microcomputer
    // ROM GOES HERE
    ROM  // 8KB BASIC and CP/M boot
      #(
-       .A_WIDTH(13),
        .D_WIDTH(8),
+       .A_WIDTH(13),
        .MEM_INIT_FILE("../mem/CPM_BASIC.mem")
        )
    rom1

@@ -41,15 +41,29 @@ set_io led2  67
 set_io led3  68
 set_io led4  70
 
-#videoSync
-#video
-#videoR0
-#videoG0
-#videoB0
-#videoR1
-#videoG1
-#videoB1
-#hSync
-#vSync
-#ps2Clk
-#ps2Data
+# Keyboard - Matches Digilent PmodPS/2 plugged into lower half of PMOD11/12
+set_io ps2Clk  26 # PMOD46 = PMOD 11/12 pin 8
+set_io ps2Data 32 # PMOD44 = PMOD 11/12 pin 12
+
+# VGA Output - Matches Digilent PmodVGA plugged into PMOD7/8/9/10
+set_io videoR1     15 # PMOD35 = PMOD 9/10 pin  5
+set_io videoR0     16 # PMOD34 = PMOD 9/10 pin  7
+#set_io red[1]     19 # PMOD33 = PMOD 9/10 pin  9
+#set_io red[0]     20 # PMOD32 = PMOD 9/10 pin 11
+
+set_io videoG1      1 # PMOD27 = PMOD  7/8 pin  5
+set_io videoG0      2 # PMOD26 = PMOD  7/8 pin  7
+#set_io green[1]    9 # PMOD25 = PMOD  7/8 pin  9
+#set_io green[0]   10 # PMOD24 = PMOD  7/8 pin 11
+
+set_io videoB1     11 # PMOD39 = PMOD 9/10 pin  6
+set_io videoB0     12 # PMOD38 = PMOD 9/10 pin  8
+#set_io blue[1]    17 # PMOD37 = PMOD 9/10 pin 10
+#set_io blue[0]    18 # PMOD36 = PMOD 9/10 pin 12
+
+set_io hSync        8 # PMOD28 = PMOD  7/8 pin 12
+set_io vSync        7 # PMOD29 = PMOD  7/8 pin 10
+
+set_io videoSync   21 # PMOD43 PMOD 11/12 pin 5
+set_io video       22 # PMOD42 PMOD 11/12 pin 7
+

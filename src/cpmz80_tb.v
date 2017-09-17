@@ -12,6 +12,8 @@ module cpmz80_tb();
    wire        ramoe_b;
    wire        ramcs_b;
    integer     i;
+   wire        ps2Clk;
+   wire        ps2Data;
    
 Microcomputer
    DUT
@@ -28,8 +30,14 @@ Microcomputer
       .sdCS(),
       .sdMOSI(),
       .sdMISO(1'b1),
-      .sdSCLK()      
+      .sdSCLK(),
+      .ps2Clk(ps2Clk),
+      .ps2Data(ps2Data)
       );
+
+   
+   assign ps2Clk = 1'b1;
+   assign ps2Data = 1'b1;
    
 
    initial begin

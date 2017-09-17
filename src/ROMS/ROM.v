@@ -5,8 +5,8 @@ module ROM
    output reg [D_WIDTH-1:0] q
 );
 
-   parameter D_WIDTH = 8;
    parameter A_WIDTH = 12;
+   parameter D_WIDTH = 8;
    parameter MEM_INIT_FILE = "";
    
    reg [D_WIDTH-1:0] rom [0:2**A_WIDTH-1];

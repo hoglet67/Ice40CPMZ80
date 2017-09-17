@@ -45,8 +45,8 @@ module SBCTextDisplayRGB
    output [12:0]    FNtoggledKeys
    );
 
-   parameter [31:0] EXTENDED_CHARSET=0;
-   parameter [31:0] COLOUR_ATTS_ENABLED=0;
+   parameter [31:0] EXTENDED_CHARSET=1;
+   parameter [31:0] COLOUR_ATTS_ENABLED=1;
    parameter [31:0] VERT_CHARS=25;
    parameter [31:0] HORIZ_CHARS=80;
    parameter [31:0] CLOCKS_PER_SCANLINE=1600;

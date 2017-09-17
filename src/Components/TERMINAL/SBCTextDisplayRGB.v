@@ -131,7 +131,7 @@ module SBCTextDisplayRGB
    reg [25:0]       kbWatchdogTimer = 0;
    reg [25:0]       kbWriteTimer = 0;
 
-   wire             n_int_internal = 1'b1;
+   wire             n_int_internal;
 
    wire [7:0]       statusReg;
    reg [7:0]        controlReg = 8'h00;

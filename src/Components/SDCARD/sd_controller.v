@@ -94,7 +94,7 @@
 
 module sd_controller
   (
-   output       sdCS,
+   output reg   sdCS,
    output       sdMOSI,
    input        sdMISO,
    output       sdSCLK,
@@ -105,26 +105,12 @@ module sd_controller
    output [7:0] dataOut,
    input [2:0]  regAddr,
    input        clk,
-   output       driveLED
+   output reg   driveLED
    );
    
    parameter [31:0] CLKEDGE_DIVIDER=50;
    // 50MHz / 50 gives edges at 1MHz ie output
    // sdSCLK of 500kHz.
-   
-   reg          sdCS;
-   wire         sdMOSI;
-   wire         sdMISO;
-   wire         sdSCLK;
-   wire         n_reset;
-   wire         n_rd;
-   wire         n_wr;
-   wire [7:0]   dataIn;
-   wire [7:0]   dataOut;
-   wire [2:0]   regAddr;
-   wire         clk;
-   reg          driveLED;
-   
    
    parameter [4:0]
      rst = 0,

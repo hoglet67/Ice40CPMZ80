@@ -56,10 +56,6 @@ module Microcomputer
    output        sdMOSI,
    input         sdMISO,
    output        sdSCLK
-//   output        test0,
-//   output        test1,
-//   output        test2,
-//   output        test3
    );
 
    wire          n_WR;
@@ -93,16 +89,11 @@ module Microcomputer
    reg           clk = 0;
    wire          driveLED;
 
-   // CPM
-   reg n_RomActive = 0;
+   // High during the initial ROM bootstrap phase
+   wire          booting;
    
-   // Disable ROM if out 38. Re-enable when (asynchronous) reset pressed
-   always @(posedge n_ioWR or negedge n_reset) begin
-      if (n_reset == 1'b0)
-        n_RomActive <= 1'b0;
-      else if (cpuAddress[7:0] == 8'b00111000) // $38
-        n_RomActive <= 1'b1;
-   end
+   // Hold everything in reset during ROM bootstrap
+   wire          n_hard_reset = n_reset & !booting;
 
    // ____________________________________________________________________________________
    // CPU CHOICE GOES HERE
@@ -114,7 +105,7 @@ module Microcomputer
        )
    cpu1
      (
-      .reset_n(n_reset),
+      .reset_n(n_hard_reset),
       .clk(cpuClock),
       .wait_n(1'b 1),
       .int_n(1'b 1),
@@ -132,9 +123,6 @@ module Microcomputer
    // ROM GOES HERE
    //
    // Bootstrap (of ROM content from ARM into RAM )
-   wire        booting;
-   wire        progress;
-   wire        wegate_b = 1'b0;   
    wire        cpm_RAMCS_b = n_externalRamCS;
    wire        cpm_RAMOE_b = n_memRD | n_externalRamCS;
    wire        cpm_RAMWE_b = n_memWR | n_externalRamCS;
@@ -155,11 +143,14 @@ module Microcomputer
    wire        arm_miso_int;
    wire        arm_sclk_int;
 
+   // TODO: not (yet) had any problems without this, but Z80 onlt running at 10MHz currently
+   wire        wegate_b = 1'b0;   
+   
    bootstrap BS
      (
       .clk(clk100),
       .booting(booting),
-      .progress(progress),
+      .progress(),
       // SPI Slave Interface (runs at 20MHz)
       .SCK(arm_sclk_int),
       .SSEL(arm_ss_int),
@@ -232,7 +223,7 @@ module Microcomputer
 `ifdef include_video
    SBCTextDisplayRGB io2
      (
-      .n_reset(n_reset),
+      .n_reset(n_hard_reset),
       .clk(clk),
       // RGB video signals
       .hSync(hSync),
@@ -267,7 +258,7 @@ module Microcomputer
       .sdSCLK(sdSCLK),
       .n_wr(n_sdCardCS | n_ioWR),
       .n_rd(n_sdCardCS | n_ioRD),
-      .n_reset(n_reset),
+      .n_reset(n_hard_reset),
       .dataIn(cpuDataOut),
       .dataOut(sdCardDataOut),
       .regAddr(cpuAddress[2:0]),
@@ -287,12 +278,6 @@ module Microcomputer
    // ____________________________________________________________________________________
    // CHIP SELECTS GO HERE
 
-   //8K at bottom of memory
-   //assign n_basRomCS = cpuAddress[15:13] == 3'b 000 && n_RomActive == 1'b0  ? 1'b 0 : 1'b 1;
-
-   // This is now boot strapped into external RAM
-   assign n_basRomCS = 1'b1;
-        
    // 2 Bytes $80-$81
    assign n_interface1CS = cpuAddress[7:1] == 7'b 1000000 && (n_ioWR == 1'b 0 || n_ioRD == 1'b 0) ? 1'b 0 : 1'b 1;
 
@@ -302,7 +287,8 @@ module Microcomputer
    // 8 Bytes $88-$8F
    assign n_sdCardCS = cpuAddress[7:3] == 5'b 10001 && (n_ioWR == 1'b 0 || n_ioRD == 1'b 0) ? 1'b 0 : 1'b 1;
 
-   assign n_externalRamCS =  ~n_basRomCS;
+   // Always enabled
+   assign n_externalRamCS = 1'b0;
 
    // ____________________________________________________________________________________
    // BUS ISOLATION GOES HERE
@@ -310,7 +296,6 @@ module Microcomputer
    assign cpuDataIn =   n_interface1CS == 1'b 0 ? interface1DataOut   :
                         n_interface2CS == 1'b 0 ? interface2DataOut   :
                             n_sdCardCS == 1'b 0 ? sdCardDataOut       :
-                        //  n_basRomCS == 1'b 0 ? basRomData          :
                        n_externalRamCS == 1'b 0 ? data_pins_in        :
                                                   8'h FF;
   // ____________________________________________________________________________________
@@ -356,7 +341,7 @@ module Microcomputer
    wire led1 = 0;
    wire led2 = !driveLED;
    wire led3 = n_WR;
-   wire led4 = !n_reset;
+   wire led4 = !n_hard_reset;
    
    // FPGA -> ARM signals
    assign arm_miso = booting ? arm_miso_int : led2;
@@ -378,15 +363,5 @@ module Microcomputer
    assign {arm_ss, arm_mosi, arm_sclk} = booting ? 3'bZ : {led1, led3, led4};
    assign {arm_ss_int, arm_mosi_int, arm_sclk_int} = {arm_ss, arm_mosi, arm_sclk};
 `endif
-
-
-   // ===============================================================
-   // Test
-   // ===============================================================
-
-   //assign test0 = booting;
-   //assign test1 = progress;
-   //assign test2 = n_reset;
-   //assign test3 = n_WR;
    
 endmodule

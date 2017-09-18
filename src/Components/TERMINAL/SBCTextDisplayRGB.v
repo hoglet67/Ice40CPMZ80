@@ -858,14 +858,14 @@ module SBCTextDisplayRGB
    assign kbBuffCount = kbInPointer >= kbReadPointer ? 0 + kbInPointer - kbReadPointer : 8 + kbInPointer - kbReadPointer;
    assign n_rts = kbBuffCount > 4 ? 1'b 1 : 1'b 0;
    // write of xxxxxx11 to control reg will reset
-   always @(posedge clk) begin
-      if(n_wr == 1'b 0 && dataIn[1:0] == 2'b 11 && regSel == 1'b 0) begin
-         func_reset <= 1'b 1;
-      end
-      else begin
-         func_reset <= 1'b 0;
-      end
-   end
+   //always @(posedge clk) begin
+   //   if(n_wr == 1'b 0 && dataIn[1:0] == 2'b 11 && regSel == 1'b 0) begin
+   //      func_reset <= 1'b 1;
+   //   end
+   //   else begin
+   //      func_reset <= 1'b 0;
+   //   end
+   //end
 
    always @(negedge n_rd or posedge func_reset) begin
       if(func_reset == 1'b 1) begin
@@ -889,16 +889,25 @@ module SBCTextDisplayRGB
       end
    end
 
-   always @(posedge n_wr) begin
+   reg n_wr1;
+   reg [7:0] dataIn1;
+   reg regSel1;
+   
+   always @(posedge clk) begin
+      n_wr1 <= n_wr;
+      dataIn1 <= dataIn;
+      regSel1 <= regSel;      
       // Standard CPU - capture data on trailing edge of wr
-      if(regSel == 1'b 1) begin
-         if(dispByteWritten == dispByteSent) begin
-            dispByteWritten <=  ~dispByteWritten;
-            dispByteLatch <= dataIn;
+      if (n_wr1 == 1'b0 && n_wr == 1'b1) begin
+         if(regSel1 == 1'b 1) begin
+            if(dispByteWritten == dispByteSent) begin
+               dispByteWritten <=  ~dispByteWritten;
+               dispByteLatch <= dataIn1;
+            end
          end
-      end
-      else begin
-         controlReg <= dataIn;
+         else begin
+            controlReg <= dataIn1;
+         end
       end
    end
 

@@ -14,6 +14,21 @@
 // eMail address available on my main web page link above.
 // no timescale needed
 
+// Notes:
+//
+// Hitchhiker uses the following codes, some of which seem to be GEMDOS extensions to VT52
+// http://toshyp.atari.org/en/VT_52_terminal.html
+// <ESC>x         - undocumented
+// <ESC>E         - clear screen
+// <ESC>Y<37><20> - set cursor position
+//                - print lots of stuff
+// <ESC>j         - save cursor
+// <ESC>Y<20><20> - set cursor position
+// <ESC>p         - reverse video
+//                - print footer line
+// <ESC>k         - restore cursor
+// <ESC>q         - normal video
+
 module SBCTextDisplayRGB
   (
    input            n_reset,
@@ -652,7 +667,7 @@ module SBCTextDisplayRGB
       tmpCursAddr = startAddr + cursorHoriz + (cursorVert * HORIZ_CHARS);
       cursAddr = (tmpCursAddr >= CHARS_PER_SCREEN) ? tmpCursAddr - CHARS_PER_SCREEN : tmpCursAddr;
    end
-   
+
    assign sync = vSync & hSync;
    // composite sync for mono video out
    // SCREEN RENDERING
@@ -1240,19 +1255,19 @@ module SBCTextDisplayRGB
                     // numeric
                     if(paramCount == 1) begin
                        // ESC[{param1}
-                       param1 <= param1 * 10 + ((dispByteLatch - 48));
+                       param1 <= {param1, 1'b0} + {param1, 3'b0} + dispByteLatch[3:0];
                     end
                     else if(paramCount == 2) begin
                        // ESC[{param1};{param2}
-                       param2 <= param2 * 10 + ((dispByteLatch - 48));
+                       param2 <= {param2, 1'b0} + {param2, 3'b0} + dispByteLatch[3:0];
                     end
                     else if(paramCount == 3) begin
                        // ESC[{param1};{param2};{param3}
-                       param3 <= param3 * 10 + ((dispByteLatch - 48));
+                       param3 <= {param3, 1'b0} + {param3, 3'b0} + dispByteLatch[3:0];
                     end
                     else if(paramCount == 4) begin
                        // ESC[{param1};{param2};{param3};{param4}
-                       param4 <= param4 * 10 + ((dispByteLatch - 48));
+                       param1 <= {param4, 1'b0} + {param4, 3'b0} + dispByteLatch[3:0];
                     end
                  end
                  else if(paramCount == 1 && param1 == 2 && dispByteLatch == 8'h 4A) begin

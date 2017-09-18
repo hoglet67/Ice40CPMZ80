@@ -858,14 +858,14 @@ module SBCTextDisplayRGB
    assign kbBuffCount = kbInPointer >= kbReadPointer ? 0 + kbInPointer - kbReadPointer : 8 + kbInPointer - kbReadPointer;
    assign n_rts = kbBuffCount > 4 ? 1'b 1 : 1'b 0;
    // write of xxxxxx11 to control reg will reset
-   //always @(posedge clk) begin
-   //   if(n_wr == 1'b 0 && dataIn[1:0] == 2'b 11 && regSel == 1'b 0) begin
-   //      func_reset <= 1'b 1;
-   //   end
-   //   else begin
-   //      func_reset <= 1'b 0;
-   //   end
-   //end
+   always @(posedge clk) begin
+      if(n_wr == 1'b 0 && dataIn[1:0] == 2'b 11 && regSel == 1'b 0) begin
+         func_reset <= 1'b 1;
+      end
+      else begin
+         func_reset <= 1'b 0;
+      end
+   end
 
    always @(negedge n_rd or posedge func_reset) begin
       if(func_reset == 1'b 1) begin
@@ -1276,7 +1276,7 @@ module SBCTextDisplayRGB
                     end
                     else if(paramCount == 4) begin
                        // ESC[{param1};{param2};{param3};{param4}
-                       param1 <= {param4, 1'b0} + {param4, 3'b0} + dispByteLatch[3:0];
+                       param4 <= {param4, 1'b0} + {param4, 3'b0} + dispByteLatch[3:0];
                     end
                  end
                  else if(paramCount == 1 && param1 == 2 && dispByteLatch == 8'h 4A) begin

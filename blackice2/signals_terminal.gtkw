@@ -1,0 +1,72 @@
+[*]
+[*] GTKWave Analyzer v3.3.58 (w)1999-2014 BSI
+[*] Mon Sep 18 11:46:35 2017
+[*]
+[dumpfile] "/home/dmb/atom/Ice40CPMZ80/blackice/dump.vcd"
+[dumpfile_mtime] "Mon Sep 18 11:31:53 2017"
+[dumpfile_size] 98800645
+[savefile] "/home/dmb/atom/Ice40CPMZ80/blackice/signals_terminal.gtkw"
+[timestart] 81395
+[size] 1855 1176
+[pos] -1 -1
+*-10.000000 83230 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] terminal_tb.
+[treeopen] terminal_tb.DUT.
+[treeopen] terminal_tb.DUT.genblk1.
+[treeopen] terminal_tb.DUT.genblk3.
+[treeopen] terminal_tb.DUT.genblk6.
+[sst_width] 223
+[signals_width] 174
+[sst_expanded] 1
+[sst_vpaned_height] 354
+@28
+terminal_tb.clk
+@23
+terminal_tb.dataIn[7:0]
+@22
+terminal_tb.dataOut[7:0]
+@28
+terminal_tb.hSync
+@22
+terminal_tb.i[31:0]
+@28
+terminal_tb.n_rd
+terminal_tb.n_reset
+terminal_tb.n_wr
+terminal_tb.ps2Clk
+terminal_tb.ps2Data
+terminal_tb.regSel
+terminal_tb.vSync
+terminal_tb.videoR1
+terminal_tb.videoR0
+terminal_tb.videoG1
+terminal_tb.videoG0
+terminal_tb.videoB1
+terminal_tb.videoB0
+terminal_tb.DUT.dispByteSent
+terminal_tb.DUT.dispByteWritten
+terminal_tb.DUT.statusReg[7:0]
+@22
+terminal_tb.DUT.genblk6.dispAttRam.address_b[10:0]
+terminal_tb.DUT.genblk6.dispAttRam.data_b[7:0]
+@28
+terminal_tb.DUT.genblk6.dispAttRam.wren_b
+@22
+terminal_tb.DUT.genblk3.dispCharRam.address_b[10:0]
+terminal_tb.DUT.genblk3.dispCharRam.data_b[7:0]
+@28
+terminal_tb.DUT.genblk3.dispCharRam.wren_b
+terminal_tb.DUT.escState[1:0]
+@22
+terminal_tb.DUT.dispAttWRData[7:0]
+@28
+terminal_tb.DUT.paramCount[2:0]
+@22
+terminal_tb.DUT.dispByteLatch[7:0]
+terminal_tb.DUT.param1[6:0]
+terminal_tb.DUT.param2[6:0]
+@28
+terminal_tb.DUT.attInverse
+terminal_tb.DUT.attBold
+[pattern_trace] 1
+[pattern_trace] 0

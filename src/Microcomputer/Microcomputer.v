@@ -36,6 +36,10 @@ module Microcomputer
    output        n_sRamWE,
    output        n_sRamCS,
    output        n_sRamOE,
+`ifdef blackice2
+   output        n_sRamLB,
+   output        n_sRamUB,
+`endif
    input         rxd1,
    output        txd1,
 `ifdef include_video
@@ -88,6 +92,11 @@ module Microcomputer
    reg           sdClock;
    reg           clk = 0;
    wire          driveLED;
+
+`ifdef blackice2
+   assign n_sRamUB  = 0;
+   assign n_sRamLB  = 0;
+`endif
 
    // High during the initial ROM bootstrap phase
    wire          booting;

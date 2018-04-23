@@ -1,0 +1,106 @@
+# User Constraint File for BlackIce Acorn Atom (Ice40Atom)
+
+# Onboard 100MHz oscillator
+set_io clk100          129
+
+# ARM SPI Port
+set_io arm_ss   71 # also LED1
+set_io arm_miso 67 # also LED2
+set_io arm_mosi 68 # also LED3
+set_io arm_sclk 70 # also LED4
+
+# Test
+#set_io test0 106 # PMOD23 PMOD 5/6 pin  6
+#set_io test1 110 # PMOD22 PMOD 5/6 pin  8
+#set_io test2 113 # PMOD21 PMOD 5/6 pin 10
+#set_io test3 144 # PMOD20 PMOD 5/6 pin 12
+
+set_io n_reset          64 # sw4
+
+# SRAM
+set_io sramData[0]     136
+set_io sramData[1]     135
+set_io sramData[2]     134
+set_io sramData[3]     130
+set_io sramData[4]     125
+set_io sramData[5]     124
+set_io sramData[6]     122
+set_io sramData[7]     121
+
+set_io sramAddress[0]  137
+set_io sramAddress[1]  138
+set_io sramAddress[2]  139
+set_io sramAddress[3]  141
+set_io sramAddress[4]  142
+set_io sramAddress[5]  42
+set_io sramAddress[6]  43
+set_io sramAddress[7]  44
+set_io sramAddress[8]  73
+set_io sramAddress[9]  74
+set_io sramAddress[10] 75
+set_io sramAddress[11] 76
+set_io sramAddress[12] 115
+set_io sramAddress[13] 116
+set_io sramAddress[14] 117
+set_io sramAddress[15] 118
+set_io sramAddress[16] 119
+set_io sramAddress[17] 78
+
+set_io n_sRamWE        120
+set_io n_sRamCS        23
+set_io n_sRamOE        29
+set_io n_sRamUB        28
+set_io n_sRamLB        24
+
+# USB UART / Pi Connector
+#
+# From the schematic it looks like:
+#
+# Pin 2 of the CH340G (TxD output) is connected to
+# - Pin 8 of the Pi Header (TxD0 output)
+# - STM32F103RET6 pin 43 (PA10)
+# - net is called RX
+# - and also via a resistor to PMOD P2, FPGA Pin 88
+#
+# Pin 3 of the CH340G (RxD input) is connected to
+# - Pin 10 of the Pi Header (RxD0 input)
+# - STM32F103RET6 pin 42 (PA9)
+# - net is called TX
+# - and also via a resistor to PMOD P3, FPGA Pin 85
+#
+# NOTE: It appears the conenections to the Pi Header are swapped (i.e. Pi output to USB UART output)
+
+set_io rxd1            88
+set_io txd1            85
+
+# SD Card
+set_io sdCS            38 # DIG18
+set_io sdMOSI          41 # DIG16
+set_io sdMISO          63 # B1
+set_io sdSCLK          37 # DIG19
+
+# Keyboard - Matches Digilent PmodPS/2 plugged into lower half of PMOD11/12
+set_io ps2Clk  26 # PMOD46 = PMOD 11/12 pin 8
+set_io ps2Data 32 # PMOD44 = PMOD 11/12 pin 12
+
+# VGA Output - Matches Digilent PmodVGA plugged into PMOD7/8/9/10
+set_io videoR1     15 # PMOD35 = PMOD 9/10 pin  5
+set_io videoR0     16 # PMOD34 = PMOD 9/10 pin  7
+#set_io red[1]     19 # PMOD33 = PMOD 9/10 pin  9
+#set_io red[0]     20 # PMOD32 = PMOD 9/10 pin 11
+
+set_io videoG1      1 # PMOD27 = PMOD  7/8 pin  5
+set_io videoG0      2 # PMOD26 = PMOD  7/8 pin  7
+#set_io green[1]    9 # PMOD25 = PMOD  7/8 pin  9
+#set_io green[0]   10 # PMOD24 = PMOD  7/8 pin 11
+
+set_io videoB1     11 # PMOD39 = PMOD 9/10 pin  6
+set_io videoB0     12 # PMOD38 = PMOD 9/10 pin  8
+#set_io blue[1]    17 # PMOD37 = PMOD 9/10 pin 10
+#set_io blue[0]    18 # PMOD36 = PMOD 9/10 pin 12
+
+set_io hSync        8 # PMOD28 = PMOD  7/8 pin 12
+set_io vSync        7 # PMOD29 = PMOD  7/8 pin 10
+
+set_io videoSync   21 # PMOD43 PMOD 11/12 pin 5
+set_io video       22 # PMOD42 PMOD 11/12 pin 7
